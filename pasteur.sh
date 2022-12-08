@@ -160,29 +160,29 @@ do_paste() {
   while [[ -n "${1}" ]]; do
     if $parse; then
       case "${1}" in
-        -h|--help) do_help 'browse' 0;;
+        -h|--help) do_help 'paste' 0;;
 
         -s|--server) SERVER="${2}"; shift;;
         --server=*)  SERVER="${1:9}";;
         -s*)         SERVER="${1:2}";;
 
-        -f|--filename) curl_args+=('--data-urlencode' "filename=${2}"); shift;;
-        --filename=*)  curl_args+=('--data-urlencode' "filename=${1:11}");;
-        -f*)           curl_args+=('--data-urlencode' "filename=${1:2}");;
+        -f|--filename) curl_args+=('--form' "filename=${2}"); shift;;
+        --filename=*)  curl_args+=('--form' "filename=${1:11}");;
+        -f*)           curl_args+=('--form' "filename=${1:2}");;
 
-        -t|--filetype) curl_args+=('--data-urlencode' "filetype=${2}"); shift;;
-        --filetype=*)  curl_args+=('--data-urlencode' "filetype=${1:11}");;
-        -t*)           curl_args+=('--data-urlencode' "filetype=${1:2}");;
+        -t|--filetype) curl_args+=('--form' "filetype=${2}"); shift;;
+        --filetype=*)  curl_args+=('--form' "filetype=${1:11}");;
+        -t*)           curl_args+=('--form' "filetype=${1:2}");;
 
-        -i|--indent-style) curl_args+=('--data-urlencode' "indent-style=${2}"); shift;;
-        --indent-style=*)  curl_args+=('--data-urlencode' "indent-style=${1:15}");;
-        -i*)               curl_args+=('--data-urlencode' "indent-style=${1:2}");;
+        -i|--indent-style) curl_args+=('--form' "indent-style=${2}"); shift;;
+        --indent-style=*)  curl_args+=('--form' "indent-style=${1:15}");;
+        -i*)               curl_args+=('--form' "indent-style=${1:2}");;
 
-        -I|--indent-size) curl_args+=('--data-urlencode' "indent-size=${2}"); shift;;
-        --indent-size=*)  curl_args+=('--data-urlencode' "indent-size=${1:14}");;
-        -I*)              curl_args+=('--data-urlencode' "indent-size=${1:2}");;
+        -I|--indent-size) curl_args+=('--form' "indent-size=${2}"); shift;;
+        --indent-size=*)  curl_args+=('--form' "indent-size=${1:14}");;
+        -I*)              curl_args+=('--form' "indent-size=${1:2}");;
 
-        -p|--private) curl_args+=('--data-urlencode' 'private=1');;
+        -p|--private) curl_args+=('--form' 'private=1');;
 
         --) parse='false';;
         -*) echo "${0} paste: invalid option: ${1}" >&2; echo >&2; do_help 'config' 1 >&2;;
@@ -198,7 +198,7 @@ do_paste() {
   if [[ -n "${args[0]}" ]]; then
     curl_args+=('--form' "f=@${args[0]}")
   else
-    curl_args+=('--data-urlencode' "content=$(</dev/stdin)")
+    curl_args+=('--form' "content=$(</dev/stdin)")
   fi
 
   curl -sSLX 'POST' "${curl_args[@]}" "${SERVER}"
