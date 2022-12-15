@@ -198,7 +198,7 @@ do_paste() {
   if [[ -n "${args[0]}" ]]; then
     curl_args+=('--form' "f=@${args[0]}")
   else
-    curl_args+=('--form' "content=$(</dev/stdin)")
+    curl_args+=('--form-string' "content=$(</dev/stdin)")
   fi
 
   curl -sSLX 'POST' "${curl_args[@]}" "${SERVER}"
