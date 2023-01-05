@@ -166,9 +166,9 @@ do_paste() {
         --server=*)  SERVER="${1:9}";;
         -s*)         SERVER="${1:2}";;
 
-        -f|--filename) curl_args+=('--form' "filename=${2}"); shift;;
-        --filename=*)  curl_args+=('--form' "filename=${1:11}");;
-        -f*)           curl_args+=('--form' "filename=${1:2}");;
+        -f|-n|--filename) curl_args+=('--form' "filename=${2}"); shift;;
+        --filename=*)     curl_args+=('--form' "filename=${1:11}");;
+        -f*|-n*)          curl_args+=('--form' "filename=${1:2}");;
 
         -t|--filetype) curl_args+=('--form' "filetype=${2}"); shift;;
         --filetype=*)  curl_args+=('--form' "filetype=${1:11}");;
