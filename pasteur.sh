@@ -9,7 +9,7 @@ set -e
 join_arr() {
   local IFS="${1}"
   shift
-  echo "${@}"
+  echo "${*}"
 }
 
 #
@@ -139,7 +139,7 @@ do_browse() {
   fi
 
   if [[ "${#query[@]}" -gt 0 ]]; then
-    query_string="?$(join_arr , "${query[@]}")"
+    query_string="?$(join_arr '&' "${query[@]}")"
   else
     query_string=''
   fi
