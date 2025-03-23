@@ -43,7 +43,7 @@ do_help() {
       echo '  -t FILETYPE, --filetype=FILETYPE              Paste filetype'
       echo '  -i INDENT_STYLE, --indent-style=INDENT_STYLE  Set indent style'
       echo '  -I INDENT_SIZE, --indent-size=INDENT_SIZE     Set indent size'
-      echo '  -p, --private                         Set visibility to private'
+      echo '  -p, --private                                 Set visibility to private'
       ;;
     *)
       echo 'Usage:'
@@ -144,7 +144,7 @@ do_browse() {
     query_string=''
   fi
 
-  curl -sSL "${SERVER}/browse${query_string}"
+  curl -H 'X-Pasteur-Client: pasteur.sh' -sSL "${SERVER}/browse${query_string}"
 }
 
 #
@@ -201,7 +201,7 @@ do_paste() {
     curl_args+=('--form-string' "content=$(</dev/stdin)")
   fi
 
-  curl -sSLX 'POST' "${curl_args[@]}" "${SERVER}"
+  curl -sSLX 'POST' -H 'X-Pasteur-Client: pasteur.sh' "${curl_args[@]}" "${SERVER}"
 }
 
 #
@@ -214,7 +214,7 @@ SERVER="${SERVER:-127.0.0.1:1337}"
 # Load config
 #
 
-# shellcheck disable=SC1091
+# shellcheck disable=1091
 [[ -f "${HOME}/.config/pasteur.sh/config" ]] && source "${HOME}/.config/pasteur.sh/config"
 
 #
